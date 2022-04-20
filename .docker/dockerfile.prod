@@ -23,8 +23,9 @@ RUN curl -fsSL -o /usr/local/bin/dbmate https://github.com/amacneil/dbmate/relea
 
 RUN pip install poetry==$POETRY_VERSION
 
-
 WORKDIR /app
+
+COPY poetry.lock pyproject.toml ./
 
 RUN poetry export --without-hashes --format requirements.txt | pip install --no-cache-dir -r /dev/stdin
 
