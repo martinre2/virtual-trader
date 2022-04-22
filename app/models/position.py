@@ -13,8 +13,8 @@ class Position(Base):
     instrument = Column(Text(12), nullable=False)
     shares = Column(Integer, nullable=False)
     status = Column(
-        Enum("OPEN", "CLOSED", name="position_status"),
-        server_default=text("'OPEN'::position_status"),
+        Enum("OPEN", "CLOSED"),
+        server_default=text("OPEN"),
     )
     open_at = Column(
         DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP")

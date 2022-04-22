@@ -11,8 +11,8 @@ class Order(Base):
     id = Column(Text(length=36), default=lambda: str(uuid4()), primary_key=True)
     instrument = Column(Text(12), nullable=False)
     side = Column(
-        Enum("BUY", "SELL", name="order_side"),
-        server_default=text("'BUY'::order_side"),
+        Enum("BUY", "SELL"),
+        server_default=text("BUY"),
     )
     quantity = Column(Integer, nullable=False)
     quantity_buy = Column(Integer, nullable=False, server_default=text("0"))
@@ -20,9 +20,7 @@ class Order(Base):
     type = Column(Text(12), nullable=False)
     user_id = Column(Text(length=36), nullable=False)
     status = Column(
-        Enum("PENDING", "FILLED", name="order_status"),
-        server_default=text("'PENDING'::order_status"),
+        Enum("PENDING", "FILLED"),
+        server_default=text("PENDING"),
     )
-    filled_price = Column(
-        Text(12), server_default=text("'0.00'::character varying")
-    )
+    filled_price = Column(Text(12), server_default=text("0.00"))
