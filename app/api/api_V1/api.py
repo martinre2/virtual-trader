@@ -3,7 +3,7 @@ Application API routes
 """
 from fastapi import APIRouter, status
 
-from app.api.api_V1.endpoints import auth, items, order, user
+from app.api.api_V1.endpoints import auth, items, order, position, user
 
 api_router = APIRouter()
 
@@ -31,6 +31,13 @@ api_router.include_router(
 
 api_router.include_router(
     order.router,
+    prefix="/exchange",
+    responses={status.HTTP_404_NOT_FOUND: {"description": "Not found"}},
+    tags=["exchange"],
+)
+
+api_router.include_router(
+    position.router,
     prefix="/exchange",
     responses={status.HTTP_404_NOT_FOUND: {"description": "Not found"}},
     tags=["exchange"],

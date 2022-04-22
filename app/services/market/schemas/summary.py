@@ -37,10 +37,10 @@ class SummaryData(BaseModel):
 
         data_t = dict(zip(keys, values))
 
-        low, high = data_t["TodayHighLow"].split("/")
+        high, low = data_t["TodayHighLow"].split("/")
 
-        data_t["TodayHigh"] = high.replace("$", "")
-        data_t["TodayLow"] = low.replace("$", "")
+        data_t["TodayHigh"] = high.replace("$", "").replace(",", "")
+        data_t["TodayLow"] = low.replace("$", "").replace(",", "")
         data_t["TodayAvg"] = (
             str_to_float(data_t["TodayHigh"]) + str_to_float(data_t["TodayLow"])
         ) / 2
