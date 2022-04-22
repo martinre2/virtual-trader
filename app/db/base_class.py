@@ -1,7 +1,7 @@
 import re
 from typing import Any
 
-from sqlalchemy import Column, DateTime, text
+from sqlalchemy import Column, DateTime, inspect, text
 from sqlalchemy.ext.declarative import as_declarative, declared_attr
 from sqlalchemy.sql import func
 
@@ -30,6 +30,12 @@ class Base:
     @declared_attr
     def __tablename__(cls) -> str:
         return _to_snake_case(cls.__name__)
+
+    def _asdict(self):
+        return {
+            c.key: getattr(self, c.key)
+            for c in inspect(self).mapper.column_attrs
+        }
 
 
 def _to_snake_case(camel_str: str):
