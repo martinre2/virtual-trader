@@ -50,6 +50,8 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     ) -> ModelType:
         """Update a ModelType object"""
         obj_data = jsonable_encoder(db_obj)
+        if isinstance(db_obj, Base):
+            obj_data = db_obj._asdict()
         if isinstance(obj_in, dict):
             update_data = obj_in
         else:

@@ -16,4 +16,5 @@ class User(BaseModel):
 
 
 class UserInDB(User):
+    id: str
     hashed_password: str
