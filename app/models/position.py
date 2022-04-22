@@ -2,6 +2,7 @@
 from uuid import uuid4
 
 from sqlalchemy import Column, DateTime, Enum, Integer, Text, text
+from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base
 
@@ -22,3 +23,4 @@ class Position(Base):
     close_at = Column(
         DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
+    orders = relationship("Order", secondary="order_position", viewonly=True)
