@@ -9,6 +9,15 @@ from pydantic import BaseModel
 from pydantic.schema import datetime
 
 
+def convert_datetime_to_iso_8601(dt: datetime) -> str:
+    fmt_timezone = ""
+    tz = dt.utcoffset()
+    if tz is None:
+        fmt_timezone = "+00:00"
+
+    return dt.strftime("%Y-%m-%dT%H:%M:%S.%f%z") + fmt_timezone
+
+
 class PositionStatus(str, Enum):
     """Position Status Type"""
 
@@ -38,7 +47,10 @@ class PositionCreate(PositionBase):
     instrument: str
     shares: int
     status: PositionStatus = PositionStatus.OPEN
-    open_at: datetime = pendulum.now()
+    open_at: datetime = pendulum.now("UTC")
+
+    class Config:
+        json_encoders = {datetime: convert_datetime_to_iso_8601}
 
 
 class PositionUpdate(PositionBase):

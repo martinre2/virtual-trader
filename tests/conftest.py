@@ -8,6 +8,8 @@ from sqlalchemy.orm import sessionmaker
 from app.db.base_class import Base
 from app.helpers.db import get_db
 from app.main import fastapi_app
+from app.schemas.user import UserInDB
+from app.utils.jwt import get_current_user
 
 DATABASE_URL = "sqlite:///./test.db"
 
@@ -34,6 +36,15 @@ def override_get_db():
         db.close()
 
 
+def override_get_current_user():
+    """Get test user"""
+    return UserInDB(
+        id="00000000-0000-0000-0000-000000000001",
+        username="tester",
+        hashed_password="###",
+    )
+
+
 @pytest.fixture(scope="session")
 def db() -> Generator:
     yield TestingSessionLocal()
@@ -47,5 +58,9 @@ def client() -> Generator:
         Generator: TestClient
     """
     fastapi_app.dependency_overrides[get_db] = override_get_db
+    fastapi_app.dependency_overrides[
+        get_current_user
+    ] = override_get_current_user
+
     with TestClient(fastapi_app) as c:
         yield c

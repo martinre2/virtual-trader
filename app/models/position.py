@@ -5,6 +5,7 @@ from sqlalchemy import Column, DateTime, Enum, Integer, Text, text
 from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base
+from app.models.types.custom_datetime import CustomDateTime
 
 
 class Position(Base):
@@ -18,7 +19,7 @@ class Position(Base):
         server_default=text("OPEN"),
     )
     open_at = Column(
-        DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP")
+        CustomDateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     close_at = Column(
         DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP")
