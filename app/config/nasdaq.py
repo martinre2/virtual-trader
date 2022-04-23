@@ -10,7 +10,7 @@ class Settings(BaseSettings):
         nasdaq_url: URL for Sentry
     """
 
-    nasdaq_url: Optional[str]
+    nasdaq_url: Optional[str] = "https://api.nasdaq.com/api"
 
 
 settings = Settings()
